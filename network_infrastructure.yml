@@ -1,5 +1,5 @@
 Description: > 
-  Mohammed Salah / Deploy a high avaliblity web app (portofilo) using aws cloudformation
+  Mohammed Salah / Deploy an infrastructure for a  high avaliblity web app (portofilo) using aws cloudformation
 
 Parameters: 
   EnvironmentName:
@@ -136,6 +136,7 @@ Resources:
         SubnetId:
           Ref: PublicSubnet2
 
+########
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -171,6 +172,8 @@ Resources:
       RouteTableId:
         Ref: PublicRouteTable
 
+######
+
   PrivateRouteTable1:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -182,7 +185,6 @@ Resources:
 
   DefaultPrivateRoute1:
     Type: AWS::EC2::Route
-    DependsOn: AttachGateway
     Properties:
        RouteTableId:
          Ref: PrivateRouteTable1
@@ -198,6 +200,8 @@ Resources:
       RouteTableId:
         Ref: PrivateRouteTable1
 
+####
+
   PrivateRouteTable2:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -209,7 +213,6 @@ Resources:
 
   DefaultPrivateRoute2:
     Type: AWS::EC2::Route
-    DependsOn: AttachGateway
     Properties:
        RouteTableId:
          Ref: PrivateRouteTable2

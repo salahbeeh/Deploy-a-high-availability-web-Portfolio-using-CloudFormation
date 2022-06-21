@@ -1,0 +1,59 @@
+Description: > 
+  Mohammed Salah / Deploy a high avaliblity web app (portofilo) using aws cloudformation
+
+Parameters: 
+
+  EnvironmentName:
+    Description: An environment name that will prefixed to resource names
+    Type: String
+
+
+
+
+Resources:
+
+
+  S3ReadOnlytEC2: 
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: 
+        !Sub ${EnvironmentName}-Role
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "ec2.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+
+  RolePolicies: 
+    Type: "AWS::IAM::Policy"
+    Properties: 
+      PolicyName: "AmazonS3ReadOnluAccess"
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Action: 
+            - s3:Get*
+            - s3:List*
+            Resource: 
+            - arn:aws:s3::::portfolio111
+            - arn:aws:s3::::portfolio111/*
+      Roles: 
+        - Ref: "S3ReadOnlytEC2"
+  
+  
+  ProfileWithRoleForMyApp: 
+    Type: "AWS::IAM::InstanceProfile"
+    Properties: 
+      Path: "/"
+      Roles: 
+        - Ref: "S3ReadOnlytEC2"
+
+
+
