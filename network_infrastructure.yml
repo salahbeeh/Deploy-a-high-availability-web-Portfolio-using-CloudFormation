@@ -21,15 +21,15 @@ Parameters:
       Type: String
       Default: 10.0.1.0/24
  
-  # PrivateSubnet1CIDR:
-  #     Description: IP range (CIDR notation) for Private subnet in the 1st AZ
-  #     Type: String
-  #     Default: 10.0.2.0/24
+  PrivateSubnet1CIDR:
+      Description: IP range (CIDR notation) for Private subnet in the 1st AZ
+      Type: String
+      Default: 10.0.2.0/24
  
-  # PrivateSubne2CIDR:
-  #     Description: IP range (CIDR notation) for Private subnet in the 2nd AZ
-  #     Type: String
-  #     Default: 10.0.3.0/24
+  PrivateSubnet2CIDR:
+      Description: IP range (CIDR notation) for Private subnet in the 2nd AZ
+      Type: String
+      Default: 10.0.3.0/24
 
 
 Resources:
@@ -79,4 +79,26 @@ Resources:
       AvailabilityZone: !Select  [ 0, !GetAZs  '' ]
       Tags:
       - Key: Name
-        Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+        Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: !Ref PrivateSubnet1CIDR
+      AvailabilityZone: !Select  [ 0, !GetAZs  '' ]
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: !Ref PrivateSubnet2CIDR
+      AvailabilityZone: !Select  [ 0, !GetAZs  '' ]
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
