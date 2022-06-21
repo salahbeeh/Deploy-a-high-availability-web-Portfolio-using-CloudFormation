@@ -203,11 +203,17 @@ Outputs:
       Export:
         Name: !Sub  ${EnvironmentName}-VPCID
 
-  PublicSubnets:
+  PublicSubnet1:
       Description: A list of the public subnets
-      Value: !Join [ ",", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
+      Value: !Ref PublicSubnet1
       Export:
-        Name: !Sub ${EnvironmentName}-PUB-NETS
+        Name: !Sub ${EnvironmentName}-PUB-NET1
+
+  PublicSubnet2:
+      Description: A list of the public subnets
+      Value: !Ref PublicSubnet2
+      Export:
+        Name: !Sub ${EnvironmentName}-PUB-NET2
 
   PrivateSubnet1:
       Description: A list of the private subnets

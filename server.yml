@@ -42,7 +42,7 @@ Resources:
   RolePolicies: 
     Type: "AWS::IAM::Policy"
     Properties: 
-      PolicyName: "AmazonS3ReadOnluAccess"
+      PolicyName: AmazonS3ReadOnlyAccess
       PolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -51,8 +51,7 @@ Resources:
             - s3:Get*
             - s3:List*
             Resource: 
-            - arn:aws:s3::::portfolio111
-            - arn:aws:s3::::portfolio111/*
+            - arn:aws:s3:::portfolio111/Portfolio-master.zip
       Roles: 
         - Ref: "S3ReadOnlytEC2"
   
@@ -150,8 +149,10 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
         VPCZoneIdentifier:  
-        - Fn::ImportValue:
-            !Sub "${EnvironmentName}-PUB-NETS"
+          - Fn::ImportValue:
+              !Sub "${EnvironmentName}-PRIV-NET1"
+          - Fn::ImportValue:
+              !Sub "${EnvironmentName}-PRIV-NET2"
         LaunchConfigurationName:
             Ref: WebAppLaunchConfig
         MinSize: '4'
@@ -166,9 +167,10 @@ Resources:
         - Ref: LBSecGroup
         Subnets:
           - Fn::ImportValue:
-              !Sub "${EnvironmentName}-PRIV-NET1"
+              !Sub ${EnvironmentName}-PUB-NET1
           - Fn::ImportValue:
-              !Sub "${EnvironmentName}-PRIV-NET2"
+              !Sub ${EnvironmentName}-PUB-NET2
+
 
   
   Listener:
@@ -198,7 +200,7 @@ Resources:
 
 Outputs:
       WebAppLoadBalancerDNSName:
-        Description: DNS name or Public URL of the Load Balancer
+        Description: DNS name or Public URL of the Load Balancer or Portfolio-master.zip
         Value: !Join [ "", [ 'http://', !GetAtt WebAppLB.DNSName ]]
         Export:
             Name: !Sub ${EnvironmentName}-LB-DNSName
