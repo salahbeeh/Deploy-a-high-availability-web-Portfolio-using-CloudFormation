@@ -5,14 +5,67 @@ Parameters:
   EnviromentName:
     Description: An environment name that will prefixed to resource names
     Type: String
+  
+  VpcCIDR:
+      Description: IP range for this VPC
+      Type: String
+      Default: 10.0.0.0/16
+
+  PublicSubnet1CIDR:
+      Description: IP range (CIDR notation) for Public subnet in the 1st AZ
+      Type: String
+      Default: 10.0.0.0/24
+ 
+  PublicSubnet2CIDR:
+      Description: IP range (CIDR notation) for Public subnet in the 2nd AZ
+      Type: String
+      Default: 10.0.1.0/24
+ 
+  PrivateSubne1CIDR:
+      Description: IP range (CIDR notation) for Private subnet in the 1st AZ
+      Type: String
+      Default: 10.0.2.0/24
+ 
+  PrivateSubne2CIDR:
+      Description: IP range (CIDR notation) for Private subnet in the 2nd AZ
+      Type: String
+      Default: 10.0.3.0/24
+
 
 Resources:
 
-  myVPC:
+  VPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: # include it in the paramters file 
+      CidrBlock: !Ref VpcCIDR
       EnableDnsHostnames: 'true'
       Tags:
         - Key: Name
-          Value: # include int in the parameters file
+          Value: !Ref EnviromentName
+
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Ref EnviromentName
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: VPC
+      InternetGatewayId:
+        Ref: InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: !Ref PublicSubnet1CIDR
+      AvailabilityZone: !Select  [ 0, !GetAZs  '' ]
+      Tags:
+      - Key: Name
+        Value: !Sub ${EnviromentName} Public Subnet (AZ1)
