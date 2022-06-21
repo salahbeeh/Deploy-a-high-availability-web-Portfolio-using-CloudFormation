@@ -1,8 +1,15 @@
 [
-
     {   
         "ParameterKey":     "EnvironmentName",
         "ParameterValue":   "portfolioProject"
+    },
+    {
+        "ParameterKey": "InstanceType",
+        "ParameterValue": "t2.medium"
+    },
+    {
+        "ParameterKey": "AMI",
+        "ParameterValue": "ami-0729e439b6769d6ab"
     }
 
 ]
