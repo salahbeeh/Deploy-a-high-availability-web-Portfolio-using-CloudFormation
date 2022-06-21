@@ -17,21 +17,7 @@
     {   
         "ParameterKey":     "PublicSubnet2CIDR",
         "ParameterValue":   "10.0.1.0/24"
-    },
-
-    {   
-        "ParameterKey":     "PrivateSubne1CIDR",
-        "ParameterValue":   "10.0.2.0/24"
-    },
-
-    {   
-        "ParameterKey":     "PrivateSubnet2CIDR",
-        "ParameterValue":   "10.0.3.0/24"
     }
-    
-
-
-
 
 
 
