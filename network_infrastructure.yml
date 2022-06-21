@@ -1,0 +1,18 @@
+Description: > 
+  Mohammed Salah / Deploy a high avaliblity web app (portofilo) using aws cloudformation
+
+Parameters: 
+  EnviromentName:
+    Description: An environment name that will prefixed to resource names
+    Type: String
+
+Resources:
+
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: # include it in the paramters file 
+      EnableDnsHostnames: 'true'
+      Tags:
+        - Key: Name
+          Value: # include int in the parameters file
